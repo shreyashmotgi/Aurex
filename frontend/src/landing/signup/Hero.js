@@ -147,8 +147,12 @@ function Hero() {
                 value={formData.password}
                 onChange={handleChange}
                 disabled={isSubmitting}
+                minLength={8}
                 required
               />
+              <small className="text-muted">
+                Password must be min 8 characters long.
+              </small>
             </div>
 
             <button
@@ -188,8 +192,8 @@ function Hero() {
         <h2>Already have a demat account?</h2>
 
         <p className="text-muted">
-          Move your holdings to Aurex and we'll cover your transfer costs, up
-          to ₹500. <a href="/">Learn more</a>
+          Move your holdings to Aurex and we'll cover your transfer costs, up to
+          ₹500. <a href="/">Learn more</a>
         </p>
       </div>
     </div>

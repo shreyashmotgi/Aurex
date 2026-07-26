@@ -155,26 +155,21 @@ const forgotPassword = async (req, res) => {
     if (user.provider === "google") {
       return res.status(400).json({
         success: false,
-        message:
-          "This account uses Google Sign In. Please login with Google.",
+        message: "This account uses Google Sign In. Please login with Google.",
       });
     }
 
     // Generate reset token
-    const resetToken = crypto
-      .randomBytes(32)
-      .toString("hex");
+    const resetToken = crypto.randomBytes(32).toString("hex");
 
     user.resetPasswordToken = resetToken;
 
-    user.resetPasswordExpires =
-      Date.now() + 10 * 60 * 1000;
+    user.resetPasswordExpires = Date.now() + 10 * 60 * 1000;
 
     await user.save();
 
     // Reset link
-    const resetLink =
-      `${process.env.BACKEND_URL}/auth/reset-password/${resetToken}`;
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
     await sendEmail({
       to: user.email,
@@ -207,28 +202,16 @@ const forgotPassword = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message:
-        "Password reset link sent to your email.",
+      message: "Password reset link sent to your email.",
     });
-
   } catch (err) {
-
     console.log(err);
 
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
     });
-
   }
-};
-
-const openResetPassword = async (req, res) => {
-  const { token } = req.params;
-
-  res.redirect(
-    `${process.env.FRONTEND_URL}/reset-password/${token}`
-  );
 };
 
 const resetPassword = async (req, res) => {
@@ -252,8 +235,7 @@ const resetPassword = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         success: false,
-        message:
-          "Invalid or expired password reset link.",
+        message: "Invalid or expired password reset link.",
       });
     }
 
@@ -268,19 +250,15 @@ const resetPassword = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message:
-        "Password reset successfully. Please login.",
+      message: "Password reset successfully. Please login.",
     });
-
   } catch (err) {
-
     console.log(err);
 
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
     });
-
   }
 };
 
@@ -322,58 +300,86 @@ const signup = async (req, res) => {
     });
 
     // Generate Verification Token
-    const verificationToken = crypto
-      .randomBytes(32)
-      .toString("hex");
+    const verificationToken = crypto.randomBytes(32).toString("hex");
 
     newUser.verificationToken = verificationToken;
 
     // 10 Minutes
-    newUser.verificationTokenExpires =
-      Date.now() + 10 * 60 * 1000;
+    newUser.verificationTokenExpires = Date.now() + 10 * 60 * 1000;
 
     // Used later for auto cleanup
-    newUser.deleteAfter =
-      Date.now() + 10 * 60 * 1000;
+    newUser.deleteAfter = Date.now() + 10 * 60 * 1000;
 
     await newUser.save();
 
     // Verification Link
-    const verificationLink =
-      `${process.env.BACKEND_URL}/auth/verify-email/${verificationToken}`;
+    const verificationLink = `${process.env.BACKEND_URL}/auth/verify-email/${verificationToken}`;
 
     try {
       await sendEmail({
         to: newUser.email,
-        subject: "Verify your Zerodha Clone account",
+        subject: "Welcome to Aurex — Verify Your Email",
 
         html: `
-          <h2>Welcome ${newUser.fullName}</h2>
+<div style="font-family: Arial, Helvetica, sans-serif; max-width:600px; margin:auto; padding:30px; background:#ffffff; border:1px solid #e5e7eb; border-radius:12px;">
 
-          <p>Your account has been created successfully.</p>
+  <div style="text-align:center; margin-bottom:30px;">
+    <h1 style="margin:0; color:#0B1220; font-size:32px;">
+      Aurex
+    </h1>
+    <p style="color:#6b7280; margin-top:8px;">
+      Rise Above the Market
+    </p>
+  </div>
 
-          <p>Please verify your email within <b>10 minutes</b>.</p>
+  <h2 style="color:#0B1220;">
+    Welcome, ${newUser.fullName} 👋
+  </h2>
 
-          <a
-            href="${verificationLink}"
-            style="
-              display:inline-block;
-              padding:12px 20px;
-              background:#387ed1;
-              color:#fff;
-              text-decoration:none;
-              border-radius:5px;
-            "
-          >
-            Verify Email
-          </a>
+  <p style="color:#4b5563; line-height:1.8;">
+    Thank you for creating your Aurex account.
+  </p>
 
-          <p>If you didn't create this account, ignore this email.</p>
-        `,
+  <p style="color:#4b5563; line-height:1.8;">
+    Please verify your email address to activate your account and start exploring stocks, portfolios, watchlists, and market insights.
+  </p>
+
+  <div style="text-align:center; margin:35px 0;">
+    <a
+      href="${verificationLink}"
+      style="
+        display:inline-block;
+        background:#D4AF37;
+        color:#0B1220;
+        padding:14px 30px;
+        text-decoration:none;
+        font-weight:bold;
+        border-radius:8px;
+      "
+    >
+      Verify Email
+    </a>
+  </div>
+
+  <p style="color:#6b7280;">
+    This verification link will expire in
+    <strong>10 minutes</strong>.
+  </p>
+
+  <hr style="margin:30px 0; border:none; border-top:1px solid #e5e7eb;">
+
+  <p style="font-size:14px; color:#9ca3af;">
+    If you didn't create an Aurex account, you can safely ignore this email.
+  </p>
+
+  <p style="font-size:13px; color:#9ca3af; margin-top:30px;">
+    © 2026 Aurex. All Rights Reserved.
+  </p>
+
+</div>
+`,
       });
-
     } catch (emailError) {
-
       // Rollback if email couldn't be sent
 
       await Fundsmodel.deleteOne({
@@ -384,8 +390,7 @@ const signup = async (req, res) => {
 
       return res.status(500).json({
         success: false,
-        message:
-          "Unable to send verification email. Please try again.",
+        message: "Unable to send verification email. Please try again.",
       });
     }
 
@@ -394,9 +399,7 @@ const signup = async (req, res) => {
       message:
         "Registration successful. Please verify your email within 10 minutes before logging in.",
     });
-
   } catch (err) {
-
     console.log(err);
 
     return res.status(500).json({
@@ -489,6 +492,5 @@ module.exports = {
   verifyEmail,
   googleLogin,
   forgotPassword,
-  openResetPassword,
   resetPassword,
 };

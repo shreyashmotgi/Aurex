@@ -8,7 +8,6 @@ const {
   googleLogin,
   verifyEmail,
   forgotPassword,
-  openResetPassword,
   resetPassword,
 } = require("../controllers/authController");
 
@@ -17,8 +16,6 @@ router.post("/signup", signup);
 router.get("/verify-email/:token", verifyEmail);
 
 router.post("/forgot-password", forgotPassword);
-
-router.get("/reset-password/:token", openResetPassword);
 
 router.post("/reset-password/:token", resetPassword);
 
