@@ -12,6 +12,7 @@ import SignUp from "../landing/signup/SignUp";
 import EmailVerified from "../pages/EmailVerified";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
+import VerifyEmail from "../pages/VerifyEmail";
 
 import Login from "../pages/Login";
 
