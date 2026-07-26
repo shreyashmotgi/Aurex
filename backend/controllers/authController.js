@@ -313,8 +313,7 @@ const signup = async (req, res) => {
     await newUser.save();
 
     // Verification Link
-    const verificationLink = `${process.env.BACKEND_URL}/auth/verify-email/${verificationToken}`;
-
+    const verificationLink = `${process.env.FRONTEND_URL}/verify-email/${verificationToken}`;
     try {
       await sendEmail({
         to: newUser.email,

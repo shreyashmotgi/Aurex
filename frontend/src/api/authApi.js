@@ -28,6 +28,11 @@ export const forgotPassword = async (email) => {
   return res.data;
 };
 
+export const verifyEmail = async (token) => {
+  const res = await api.get(`/auth/verify-email/${token}`);
+  return res.data;
+};
+
 export const resetPassword = async (
   token,
   password
