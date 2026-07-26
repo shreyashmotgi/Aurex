@@ -16,7 +16,7 @@ function Team() {
                         <p>Aurex was created with one mission — to make investing simple, fast, and accessible for everyone. Whether you're placing your first trade or building a long-term portfolio, Aurex combines powerful tools with an intuitive experience.</p>
                         <p>Built using modern web technologies, Aurex provides real-time market tracking, advanced interactive charts, portfolio management, watchlists, and secure trading workflows in one seamless platform..</p>
                         <p>We believe investing shouldn't be complicated. It should be transparent, educational, and empowering.</p>
-                        <p>Connect on <a href=''>Homepage</a> / <a href=''>TradingQnA</a> / <a href=''>Twitter</a></p>
+                        <p>Connect on <a href='/about'>Homepage</a> / <a href='/about'>TradingQnA</a> / <a href='/about'>Twitter</a></p>
                     </div>
             </div>
         </div>

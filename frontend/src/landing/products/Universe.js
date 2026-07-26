@@ -12,7 +12,7 @@ function Universe() {
         </p>
         <div className="col-12 col-sm-6 col-md-4 p-3 mt-5 mb-5">
           <img
-            src="media/images/zerodhaFundhouse.png"
+            src="media/images/zerodhaFundhouse.png" alt="fundhouse"
             style={{ width: "50%" }}
           />
           <p className="text-small text-muted mt-3">
@@ -21,7 +21,7 @@ function Universe() {
           </p>
         </div>
         <div className="col-12 col-sm-6 col-md-4 p-3 mt-5 mb-5">
-          <img src="media/images/sensibullLogo.svg" style={{ width: "50%" }} />
+          <img src="media/images/sensibullLogo.svg"  alt="sensibull"style={{ width: "50%" }} />
           <p className="text-small text-muted mt-3">
             Options trading platform that lets you create strategies, analyze
             positions, and examine data points like open interest, FII/DII, and
@@ -29,28 +29,28 @@ function Universe() {
           </p>
         </div>
         <div className="col-12 col-sm-6 col-md-4 p-3 mt-5">
-          <img src="media/images/tijori.svg" style={{ width: "40%" }} />
+          <img src="media/images/tijori.svg" alt="tijori" style={{ width: "40%" }} />
           <p className="text-small text-muted mt-3">
             Investment research platform that offers detailed insights on
             stocks, sectors, supply chains, and more.
           </p>
         </div>
         <div className="col-12 col-sm-6 col-md-4 p-3 mt-5">
-          <img src="media/images/streakLogo.png" style={{ width: "50%" }} />
+          <img src="media/images/streakLogo.png" alt="streaklogo" style={{ width: "50%" }} />
           <p className="text-small text-muted mt-3">
             Systematic trading platform that allows you to create and backtest
             strategies without coding.
           </p>
         </div>
         <div className="col-12 col-sm-6 col-md-4 p-3 mt-5">
-          <img src="media/images/smallcaseLogo.png" />
+          <img src="media/images/smallcaseLogo.png" alt="smallcase" />
           <p className="text-small text-muted mt-3">
             Thematic investing platform that helps you invest in diversified
             baskets of stocks on ETFs.
           </p>
         </div>
         <div className="col-12 col-sm-6 col-md-4 p-3 mt-5">
-          <img src="media/images/dittoLogo.png" style={{ width: "50%" }} />
+          <img src="media/images/dittoLogo.png" alt="ditto" style={{ width: "50%" }} />
           <p className="text-small text-muted mt-3">
             Personalized advice on life and health insurance. No spam and no
             mis-selling.

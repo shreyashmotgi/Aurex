@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import AppCard from "../components/AppCard";
-import MenuSection from "../components/MenuSection";
+// import AppCard from "../components/AppCard";
+// import MenuSection from "../components/MenuSection";
 
 function Navbar() {
   return (
@@ -13,7 +13,7 @@ function Navbar() {
         <Link className="navbar-brand" to="/">
           <img
             src="/media/images/aurex.png"
-            alt="Zerodha"
+            alt="Aurex"
             style={{ width: "130px" }}
           />
         </Link>

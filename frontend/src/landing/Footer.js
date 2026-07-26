@@ -21,75 +21,75 @@ function Footer() {
           </div>
           <div className="col">
             <p>Account</p>
-            <a href="">NRI demat account</a>
+            <a href="/">NRI demat account</a>
             <br />
-            <a href="">Minor demat account</a>
+            <a href="/">Minor demat account</a>
             <br />
-            <a href="">Open demat account</a>
+            <a href="/">Open demat account</a>
             <br />
-            <a href="">HUF demat account</a>
+            <a href="/">HUF demat account</a>
             <br />
-            <a href="">Commodity</a>
+            <a href="/">Commodity</a>
             <br />
-            <a href="">Dematerialisation</a>
+            <a href="/">Dematerialisation</a>
             <br />
-            <a href="">Fund transfer</a>
+            <a href="/">Fund transfer</a>
             <br />
-            <a href="">MTF</a>
+            <a href="/">MTF</a>
           </div>
           <div className="col">
             <p>Support</p>
-            <a href="">Contact us</a>
+            <a href="/">Contact us</a>
             <br />
-            <a href="">Support portal</a>
+            <a href="/">Support portal</a>
             <br />
-            <a href="">How to file a complaint?</a>
+            <a href="/">How to file a complaint?</a>
             <br />
-            <a href="">Status of your complaints</a>
+            <a href="/">Status of your complaints</a>
             <br />
-            <a href="">Bulletin</a>
+            <a href="/">Bulletin</a>
             <br />
-            <a href="">Circular</a>
+            <a href="/">Circular</a>
             <br />
-            <a href="">Z-Connect blog</a>
+            <a href="/">Z-Connect blog</a>
             <br />
-            <a href="">Downloads</a>
+            <a href="/">Downloads</a>
           </div>
           <div className="col">
             <p>Company</p>
-            <a href="">About</a>
+            <a href="/">About</a>
             <br />
-            <a href="">Philosophy</a>
+            <a href="/">Philosophy</a>
             <br />
-            <a href="">Press & media</a>
+            <a href="/">Press & media</a>
             <br />
-            <a href="">Careers</a>
+            <a href="/">Careers</a>
             <br />
-            <a href="">Aurex Cares (CSR)</a>
+            <a href="/">Aurex Cares (CSR)</a>
             <br />
-            <a href="">Aurex.tech</a>
+            <a href="/">Aurex.tech</a>
             <br />
-            <a href="">Open source</a>
+            <a href="/">Open source</a>
             <br />
-            <a href="">Referral program</a>
+            <a href="/">Referral program</a>
           </div>
           <div className="col">
             <p>Quick Links</p>
-            <a href="">Upcoming IPOs</a>
+            <a href="/">Upcoming IPOs</a>
             <br />
-            <a href="">Brokerage charges</a>
+            <a href="/">Brokerage charges</a>
             <br />
-            <a href="">Market holidays</a>
+            <a href="/">Market holidays</a>
             <br />
-            <a href="">Economic calendar</a>
+            <a href="/">Economic calendar</a>
             <br />
-            <a href="">Calculators</a>
+            <a href="/">Calculators</a>
             <br />
-            <a href="">Markets</a>
+            <a href="/">Markets</a>
             <br />
-            <a href="">Sectors</a>
+            <a href="/">Sectors</a>
             <br />
-            <a href="">Gift Nifty</a>
+            <a href="/">Gift Nifty</a>
           </div>
         </div>
         <div className="mt-5" style={{ fontSize: "14px" }}>
