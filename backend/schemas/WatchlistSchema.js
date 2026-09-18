@@ -10,6 +10,12 @@ const WatchlistSchema = new Schema(
       trim: true,
     },
 
+    basePrice: {
+      type: Number,
+      required: true,
+      min: 1,
+    },
+
     price: {
       type: Number,
       required: true,
