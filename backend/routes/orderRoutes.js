@@ -6,11 +6,12 @@ const {
 } = require("../controllers/orderController");
 
 const verifyToken = require("../middlewares/verifyToken");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-router.post("/", verifyToken, placeOrder);
+router.post("/", authMiddleware,verifyToken, placeOrder);
 
-router.get("/", verifyToken, getOrders);
+router.get("/", authMiddleware,verifyToken, getOrders);
 
 module.exports = router;

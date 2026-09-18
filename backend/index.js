@@ -15,6 +15,7 @@ const orderRoutes = require("./routes/orderRoutes");
 const holdingsRoutes = require("./routes/holdingsRoutes");
 const summaryRoutes = require("./routes/summaryRoutes");
 const historyRoutes = require("./routes/historyRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 
 const app = express();
 app.use(express.json());
@@ -33,6 +34,7 @@ app.use("/api/funds", fundsRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/holdings", holdingsRoutes);
 app.use("/api/summary", summaryRoutes);
+app.use("/api/ai", aiRoutes);
 
 // Database Connection
 mongoose

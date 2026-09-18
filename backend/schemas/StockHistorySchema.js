@@ -43,4 +43,10 @@ const StockHistorySchema = new mongoose.Schema(
   }
 );
 
-module.exports={StockHistorySchema};
+// One candle per stock per minute
+StockHistorySchema.index(
+  { stockId: 1, candleTime: 1 },
+  { unique: true }
+);
+
+module.exports = { StockHistorySchema };

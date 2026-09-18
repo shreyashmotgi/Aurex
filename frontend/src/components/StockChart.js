@@ -3,14 +3,40 @@ import { createChart, CandlestickSeries } from "lightweight-charts";
 
 import { getStockHistory } from "../api/historyApi";
 
+const normalizeCandles = (history) => {
+  const candleMap = new Map();
+
+  history.forEach((candle) => {
+    if (
+      candle.time == null ||
+      candle.open == null ||
+      candle.high == null ||
+      candle.low == null ||
+      candle.close == null
+    ) {
+      return;
+    }
+
+    const normalizedCandle = {
+      time: Number(candle.time),
+      open: Number(candle.open),
+      high: Number(candle.high),
+      low: Number(candle.low),
+      close: Number(candle.close),
+    };
+
+    candleMap.set(normalizedCandle.time, normalizedCandle);
+  });
+
+  return Array.from(candleMap.values()).sort(
+    (a, b) => a.time - b.time
+  );
+};
+
 function StockChart({ stockId, interval, onStatsChange }) {
   const chartContainerRef = useRef(null);
   const chartRef = useRef(null);
   const candleSeriesRef = useRef(null);
-
-  // -------------------------
-  // Create Chart
-  // -------------------------
 
   useEffect(() => {
     const chart = createChart(chartContainerRef.current, {
@@ -44,6 +70,7 @@ function StockChart({ stockId, interval, onStatsChange }) {
       timeScale: {
         borderVisible: false,
       },
+
       watermark: {
         visible: true,
         text: "TradeX",
@@ -61,17 +88,17 @@ function StockChart({ stockId, interval, onStatsChange }) {
     candleSeriesRef.current = chart.addSeries(CandlestickSeries, {
       upColor: "#26a69a",
       downColor: "#ef5350",
-
       borderVisible: false,
-
       wickUpColor: "#26a69a",
       wickDownColor: "#ef5350",
     });
 
     const resize = () => {
-      chart.applyOptions({
-        width: chartContainerRef.current.clientWidth,
-      });
+      if (chartContainerRef.current) {
+        chart.applyOptions({
+          width: chartContainerRef.current.clientWidth,
+        });
+      }
     };
 
     window.addEventListener("resize", resize);
@@ -82,10 +109,6 @@ function StockChart({ stockId, interval, onStatsChange }) {
     };
   }, []);
 
-  // -------------------------
-  // Load + Live Update
-  // -------------------------
-
   useEffect(() => {
     if (!stockId) return;
 
@@ -93,22 +116,25 @@ function StockChart({ stockId, interval, onStatsChange }) {
 
     const loadHistory = async (initial = false) => {
       try {
-        const history = await getStockHistory(stockId, interval);
+        const rawHistory = await getStockHistory(stockId, interval);
 
-        if (!mounted || !history.length) return;
+        if (!mounted || !rawHistory.length) return;
+
+        const history = normalizeCandles(rawHistory);
+
+        if (!history.length) return;
 
         if (initial) {
           candleSeriesRef.current.setData(history);
-
           chartRef.current.timeScale().fitContent();
         } else {
-          candleSeriesRef.current.update(history[history.length - 1]);
+          const latestCandle = history[history.length - 1];
+
+          candleSeriesRef.current.update(latestCandle);
         }
 
         const highest = Math.max(...history.map((c) => c.high));
-
         const lowest = Math.min(...history.map((c) => c.low));
-
         const latest = history[history.length - 1];
 
         onStatsChange({

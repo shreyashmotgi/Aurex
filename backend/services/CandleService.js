@@ -53,25 +53,34 @@ const flushCandles = async () => {
 
     if (!candles.length) return;
 
-    const documents = candles.map((candle) => ({
-      stockId: candle.stockId,
-
-      open: candle.open,
-      high: candle.high,
-      low: candle.low,
-      close: candle.close,
-
-      volume: candle.volume,
-
-      // VERY IMPORTANT
-      // Save the candle's own timestamp,
-      // NOT new Date()
-      candleTime: candle.candleTime,
+    // Use upsert instead of insertMany: if a candle for this exact
+    // stockId + candleTime already exists (e.g. because the server
+    // restarted mid-minute and re-created a candle for a time that was
+    // already saved), this UPDATES that existing document instead of
+    // creating a duplicate. Combined with the unique index, this makes
+    // duplicate candleTime entries structurally impossible.
+    const operations = candles.map((candle) => ({
+      updateOne: {
+        filter: {
+          stockId: candle.stockId,
+          candleTime: candle.candleTime,
+        },
+        update: {
+          $set: {
+            open: candle.open,
+            high: candle.high,
+            low: candle.low,
+            close: candle.close,
+            volume: candle.volume,
+          },
+        },
+        upsert: true,
+      },
     }));
 
-    await StockHistorymodel.insertMany(documents);
+    await StockHistorymodel.bulkWrite(operations);
 
-    console.log(`Saved ${documents.length} candles`);
+    console.log(`Saved ${operations.length} candles`);
 
     // -----------------------
     // Start next candle

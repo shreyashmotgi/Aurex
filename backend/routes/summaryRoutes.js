@@ -5,9 +5,10 @@ const {
 } = require("../controllers/summaryController");
 
 const verifyToken = require("../middlewares/verifyToken");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-router.get("/", verifyToken, getSummary);
+router.get("/", authMiddleware,verifyToken, getSummary);
 
 module.exports = router;

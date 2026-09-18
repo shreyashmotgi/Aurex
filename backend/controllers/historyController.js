@@ -1,4 +1,5 @@
 const { aggregateCandles } = require("../utils/aggregateCandles");
+const { analyzeStockHistory } = require("../utils/analyzeStockHistory");
 const { StockHistorymodel } = require("../models/StockHistorymodel");
 const { candleBuffer } = require("../services/CandleService");
 
@@ -12,6 +13,8 @@ const getStockHistory = async (req, res) => {
     }).sort({
       candleTime: 1,
     });
+
+    const analysis = analyzeStockHistory(history);
 
     let candles = aggregateCandles(history, interval);
 
@@ -46,8 +49,8 @@ const getStockHistory = async (req, res) => {
     res.json({
       success: true,
       history: candles,
+      analysis,
     });
-
   } catch (err) {
     console.log(err);
 

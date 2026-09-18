@@ -7,14 +7,16 @@ const {
   getStockById,
 } = require("../controllers/marketController");
 
+const verifyToken = require("../middlewares/verifyToken");
+const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 router.post("/seed", seedMarket);
 
-router.get("/", getAllStocks);
+router.get("/", authMiddleware,verifyToken,getAllStocks);
 
-router.get("/:name", getStockByName);
+router.get("/:name",authMiddleware,verifyToken, getStockByName);
 
-router.get("/id/:stockId", getStockById);
+router.get("/id/:stockId",authMiddleware,verifyToken, getStockById);
 
 module.exports = router;

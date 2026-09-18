@@ -1,11 +1,35 @@
 import React, { useEffect, useState } from "react";
 
-import { getHoldings } from "../api/holdingsApi";
+import { getHoldings, getAIPortfolioAnalysis } from "../api/holdingsApi";
 
 import { VerticalGraph } from "./VerticalGraph";
 
 const Holdings = () => {
   const [holdings, setHoldings] = useState([]);
+  const [aiResponse, setAIResponse] = useState("");
+  const [analysisLoading, setAnalysisLoading] = useState(false);
+  const [analysisError, setAnalysisError] = useState("");
+
+  const handleAIPortfolioAnalysis = async () => {
+    try {
+      setAnalysisLoading(true);
+      setAnalysisError("");
+      setAIResponse("");
+
+      const data = await getAIPortfolioAnalysis();
+      console.log(data.aiResponse);
+
+      setAIResponse(data.aiResponse);
+    } catch (err) {
+      console.log(err);
+
+      setAnalysisError(
+        err.response?.data?.message || "Unable to generate portfolio analysis.",
+      );
+    } finally {
+      setAnalysisLoading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchHoldings = async () => {
@@ -56,6 +80,42 @@ const Holdings = () => {
   return (
     <>
       <h3 className="title">Holdings ({holdings.length})</h3>
+      <div className="text-center mb-4">
+        <button
+          className="landing-btn px-4"
+          onClick={handleAIPortfolioAnalysis}
+          disabled={analysisLoading}
+        >
+          {analysisLoading
+            ? "Analyzing Portfolio..."
+            : "✨ Analyze Portfolio with Aurex AI"}
+        </button>
+      </div>
+      {analysisError && (
+        <div className="alert alert-danger mt-3">{analysisError}</div>
+      )}
+
+      {aiResponse && (
+        <div className="card shadow-sm mt-4 p-4">
+          <h4 className="mb-3">Aurex AI Portfolio Analysis</h4>
+
+          <div
+            style={{
+              whiteSpace: "pre-line",
+              lineHeight: "1.7",
+            }}
+          >
+            {aiResponse}
+          </div>
+
+          <hr />
+
+          <small className="text-muted">
+            This analysis is based on your current portfolio data. It does not
+            predict future performance or constitute financial advice.
+          </small>
+        </div>
+      )}
 
       <div className="order-table">
         <table>
@@ -107,8 +167,8 @@ const Holdings = () => {
                   </td>
 
                   <td className={pnlClass}>
-                    {stock.netChange >= 0 ? "+" : ""}
-                    {stock.netChange.toFixed(2)}%
+                    {stock.netChangePercent >= 0 ? "+" : ""}
+                    {stock.netChangePercent.toFixed(2)}%
                   </td>
 
                   <td className={dayClass}>
