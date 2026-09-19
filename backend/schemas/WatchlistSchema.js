@@ -38,7 +38,7 @@ const WatchlistSchema = new Schema(
       type: Number,
       required: true,
       min: 0.005,
-      max: 0.05,
+      max: 0.015,
     },
   },
   {
