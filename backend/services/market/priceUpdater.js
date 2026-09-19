@@ -1,7 +1,10 @@
-const SOFT_BAND_MIN = 0.6;  // 60% of base -- free roaming inside this
-const SOFT_BAND_MAX = 1.6;  // 160% of base
-const REVERSION_STRENGTH = 0.08; // only applies once outside the soft band
-const HARD_MIN = 0.4;
+const { WatchlistModel } = require("../../models/WatchlistModel");
+const { updateCandle } = require("../CandleService");
+
+const SOFT_BAND_MIN = 0.6;   // 60% of base -- freely roams inside this, no correction at all
+const SOFT_BAND_MAX = 1.6;   // 160% of base
+const REVERSION_STRENGTH = 0.08; // only applies once price strays outside the soft band
+const HARD_MIN = 0.4;        // absolute wall -- never crossed, no matter what
 const HARD_MAX = 2.5;
 
 const updatePrices = async () => {
@@ -25,8 +28,9 @@ const updatePrices = async () => {
       const changeAmount = previousPrice * changePercent;
 
       // ---- Reversion ONLY kicks in outside the soft band ----
-      // Inside the band: zero reversion, trend/volatility move completely freely.
-      // Outside: pulled back, harder the further out it goes.
+      // Inside the band: zero correction, trend/volatility move completely freely.
+      // This is what lets a bullish/bearish stock actually build a visible trend
+      // instead of being fought back to sideways on every single tick.
       const softMin = stock.basePrice * SOFT_BAND_MIN;
       const softMax = stock.basePrice * SOFT_BAND_MAX;
 
@@ -39,9 +43,11 @@ const updatePrices = async () => {
 
       let newPrice = previousPrice + changeAmount + reversionAmount;
 
-      // absolute wall -- can never be crossed no matter what
-      newPrice = Math.min(Math.max(newPrice, stock.basePrice * HARD_MIN), stock.basePrice * HARD_MAX);
-      newPrice = Math.max(newPrice, 1);
+      // absolute safety net -- price can never leave this band, no matter what
+      const minAllowed = stock.basePrice * HARD_MIN;
+      const maxAllowed = stock.basePrice * HARD_MAX;
+      newPrice = Math.min(Math.max(newPrice, minAllowed), maxAllowed);
+      newPrice = Math.max(newPrice, 1); // final failsafe
       newPrice = Number(newPrice.toFixed(2));
 
       updateCandle(stock._id, newPrice);
@@ -61,4 +67,6 @@ const updatePrices = async () => {
   }
 };
 
-module.exports = { updatePrices };
+module.exports = {
+  updatePrices,
+};
