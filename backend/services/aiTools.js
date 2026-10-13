@@ -64,6 +64,10 @@ function getStartDate(timeframe) {
     istNow.setUTCHours(0, 0, 0, 0);
     return new Date(istNow.getTime() - istOffsetMs); // back to a real UTC instant representing IST midnight
   }
+
+  // every other timeframe is "now minus N milliseconds"
+  const ms = timeframeToMs[timeframe] || timeframeToMs["1d"];
+  return new Date(Date.now() - ms);
 }
 
 const getStockAnalysis = async (stockSymbol, timeframe = "today") => {
