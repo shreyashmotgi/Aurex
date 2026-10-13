@@ -33,7 +33,7 @@ const generateAIResponse = async (prompt) => {
 const generateAssistantResponse = async (
   messages,
   tools,
-  model = "inclusionai/ling-3.0-flash-sante:free",
+  model = "nvidia/nemotron-3-ultra-550b-a55b:free",
 ) => {
   try {
     const response = await axios.post(
